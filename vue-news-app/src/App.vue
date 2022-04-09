@@ -8,9 +8,25 @@
       <v-toolbar-title class="white--text">App News</v-toolbar-title>
     </v-toolbar>
 
-   <MainContent :articles="articles"></MainContent>
+
     <v-content>
-      <v-container fluid> </v-container>
+      <v-container fluid>
+        <!--Ordina per author e title-->
+  <v-layout row class="mb-3">
+    <v-btn small flat color="white" @click="sortBy('title')">
+      <v-icon left small>folder</v-icon>
+      <span class="caption text-lowercase">By title</span>
+    </v-btn>
+  </v-layout>
+  <v-layout row class="mb-3">
+    <v-btn small flat color="white" @click="sortBy('author')">
+      <v-icon left small>person</v-icon>
+      <span class="caption text-lowercase">By author</span>
+    </v-btn>
+  </v-layout>
+<!-- . -->
+<MainContent :articles="articles"></MainContent>
+      </v-container>
     </v-content>
 
 <div id="app">
@@ -53,7 +69,13 @@ export default {
       })
   },
 
-  setResource(source){
+  methods: {
+    ///////extra
+    sortBy(prop){
+      this.articles.sort((a,b) => a[prop] < b[prop] ? -1 : 1 )
+    },
+
+    setResource(source){
         axios.get('https://newsapi.org/v2/everything?q=Apple&from=2022-04-07&sortBy=popularity&apiKey='+this.api_key)
         .then(response => {
           //this.articles = response.data.articles
@@ -66,7 +88,7 @@ export default {
         })
       }
    }
-
+}
 
 </script>
 
